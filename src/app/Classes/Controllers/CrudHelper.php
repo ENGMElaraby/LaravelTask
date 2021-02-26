@@ -13,6 +13,6 @@ trait CrudHelper
      */
     protected function homeRedirect(): string
     {
-        return $this->route . 'index';
+        return $this->route . '.index';
     }
 }

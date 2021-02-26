@@ -76,7 +76,7 @@ class CrudController extends Controller implements CrudContract
     {
         return new GeneralResponse([
             'data' => $this->repository->index(),
-            'view' => $this->view . 'index',
+            'view' => $this->view . '.index',
             'breadcrumbs' => new Breadcrumb($this->breadcrumb)
         ]);
     }
@@ -90,7 +90,7 @@ class CrudController extends Controller implements CrudContract
     {
         return new GeneralResponse([
             'data' => $this->repository->create([]),
-            'view' => $this->view . 'create',
+            'view' => $this->view . '.create',
             'breadcrumbs' => new Breadcrumb($this->breadcrumb)
         ]);
     }
@@ -102,6 +102,7 @@ class CrudController extends Controller implements CrudContract
      */
     public function store(): GeneralResponse
     {
+        $this->checkRequestFile($this->storeRequest);
         $request = app($this->storeRequest);
         $this->repository->store($request->validated());
         return new GeneralResponse([
@@ -121,7 +122,7 @@ class CrudController extends Controller implements CrudContract
         return new GeneralResponse([
             'breadcrumbs' => new Breadcrumb($this->breadcrumb),
             'data' => $this->repository->show($id),
-            'view' => $this->view . 'show'
+            'view' => $this->view . '.show'
         ]);
     }
 
@@ -134,7 +135,7 @@ class CrudController extends Controller implements CrudContract
     public function edit(int $id): GeneralResponse
     {
         return new GeneralResponse([
-            'breadcrumbs' => $this->breadcrumb,
+            'breadcrumbs' => new Breadcrumb($this->breadcrumb),
             'data' => $this->repository->edit($id),
             'view' => $this->view . '.edit'
         ]);
@@ -148,6 +149,7 @@ class CrudController extends Controller implements CrudContract
      */
     public function update(int $id): GeneralResponse
     {
+        $this->checkRequestFile($this->updateRequest);
         $request = app($this->updateRequest);
         return new GeneralResponse([
             'data' => $this->repository->update($request->validated(), $id),
@@ -185,6 +187,16 @@ class CrudController extends Controller implements CrudContract
             'route' => $this->statusRedirect(),
             'alert' => ['type' => 'success', 'html' => 'updated']
         ]);
+    }
+
+    /**
+     * Check Request file exists or not for exception
+     */
+    private function checkRequestFile($reqeustFile):void
+    {
+        if (empty($reqeustFile)) {
+            throw new \RuntimeException('Please provide Request files');
+        }
     }
 
     /**
