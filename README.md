@@ -13,11 +13,11 @@ I use Docker compose and you have to RUN following commands
 ### documentation of routes
 #### I created postman file also able for use<br>
 ```sh
-- POST     | api/box/store<br>
-- GET|HEAD | api/ingredients<br>
-- POST     | api/ingredients/store<br>
-- GET|HEAD | api/recipe           <br>
-- POST     | api/recipe/store     <br>
+- POST     | api/box/store
+- GET|HEAD | api/ingredients
+- POST     | api/ingredients/store
+- GET|HEAD | api/recipe           
+- POST     | api/recipe/store     
 ```
 ### Unit test <br>
 For unit tests have to run following command<br/>
